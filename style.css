@@ -242,17 +242,12 @@ box-shadow: 0 2px 6px rgba(0,0,0,0.4);
    .feedback .fpeg {
       width: 12px;
         height: 12px;
-        background: #0b1220; /* dunkler Hintergrund */
+        background: #0b1220 !important;/* dunkler Hintergrund */
         border: 1px solid rgba(255,255,255,0.15);
-        filter: none; /* keine Aufhellung auf Standardpins */
+        filter: none !important; /* keine Aufhellung auf Standardpins */
   }
   .feedback .fpeg.set {
     filter: brightness(1.3); /* helle Pins */
-  }
-
-  .fpeg {
-    width: 12px;
-    height: 12px;
   }
    .instructions {
     font-size: 13px;
