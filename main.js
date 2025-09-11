@@ -3,15 +3,20 @@ const ROWS = 10;
 const SLOTS = 4;
 const board = document.getElementById("board");
 const palette = document.getElementById("palette");
+const secretSection = document.getElementById("secret");
+const secretRow = secretSection.getElementsByClassName("peg");
 
 let activeRow = 0;
 let selectedColor = null;
 const state = Array.from({length:ROWS},_=>Array(SLOTS).fill(null));
 let spielLaeuft = false;
+let secretCode = [];
+
+createField();
 
 function createRow(i){
     const row = document.createElement("div");
-    row.className='row'+(i===activeRow? ' active':'');
+    row.className='row';
     row.dataset.row = i;
 
     const holes = document.createElement("div");
@@ -40,8 +45,11 @@ function createRow(i){
     return row;
 }
 //Erstelle Spielfeld
-for (let r=0;r<ROWS;r++){
-    board.appendChild(createRow(r));
+function createField(){
+    board.innerHTML = "";
+    for (let r=0;r<ROWS;r++){
+        board.appendChild(createRow(r));
+    }
 }
 //Erstelle Farbpalette
 colors.forEach(c=>{
@@ -82,26 +90,84 @@ document.getElementById('undo').addEventListener('click', ()=>{
 // keyboard shortcuts
 window.addEventListener('keydown', (e)=>{
     if(e.key>='1' && e.key<=(colors.length).toString()){
-        const idx = Number(e.key)-1; document.querySelectorAll('.color-swatch')[idx].click();
+        const idx = Number(e.key)-1; 
+        document.querySelectorAll('.color-swatch')[idx].click();
     }
     if(e.key==='Enter') document.getElementById('submit').click();
     if(e.key==='Backspace') document.getElementById('undo').click();
 });
+
+
 function startAufgeben(){
-
-
 const startButton = document.getElementById("startAufgebeButton");
 console.log("Start Knopf gedrückt");
-  // Wenn Button nicht aktiv ist -> aktivieren
+  // Wenn Button nicht aktiv ist -> aktivieren/spiel starten
   if (!startButton.classList.contains("stop")) {
+    clearField();
     spielLaeuft = true;
+    generateCode();
+    activateAndDeactivateField();
     startButton.classList.add("stop");
     startButton.textContent = "Aufgeben";
   } else {
     // Button aktiv -> spiel wird gestoppt
     spielLaeuft = false;
+    activateAndDeactivateField();
     startButton.classList.remove("stop");
+    codeAufdecken();
     startButton.textContent = "Start";
-  }
+}
+}
+
+function activateAndDeactivateField(){                      //Diese Funktion kommt mir sehr unnötig vor, aber mir fällt nichts anderes ein
+    var rows = document.getElementsByClassName("row");
+    if(spielLaeuft){
+        var firstRow = rows[0];
+        activeRow = 0;
+        firstRow.classList.add("active");
+    } else{
+        var currentRow = rows[activeRow];
+        currentRow.classList.remove("active");
+        activeRow = null;
+    }
+}
+
+function generateCode(){
+    let arr =[];
+
+    for(let a = 0; a < colors.length;a++){
+        arr[a] = a;                         //Es muss eine einfachere Variante geben um so ein Array zu erstellen, aber naja
+    }
+
+    for(let r = 0; r < SLOTS; r++){
+        let index = Math.floor(Math.random() * arr.length); 
+        //console.log(index);
+        secretCode[r] = arr[index];
+        arr.splice(index,1);
+        //console.log(arr);
+    }
+    //console.log(arr);
+    console.log(secretCode);
+}
+
+function codeAufdecken(){
+  for(let place = 0; place < SLOTS; place++){
+      const dw = document.createElement('div');
+      dw.className='color-swatch';
+      dw.style.background = colors[secretCode[place]];
+      dw.title = colors[secretCode[place]];
+
+      secretRow[place].appendChild(dw);
+    }
+}
+
+function clearField(){ 
+   createField();
+    for (let i = 0; i < secretRow.length; i++) {
+        secretRow[i].innerHTML = "";
+    }
+    // Palette neu aufbauen, erste Farbe automatisch auswählen
+    selectedColor = colors[0];
+
 }
   

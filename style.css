@@ -55,7 +55,9 @@ padding:8px 6px;
 border-radius:8px;
 transition:background 200ms;
 }
-.row.active{background:linear-gradient(90deg, rgba(255,209,102,0.04), rgba(255,255,255,0.01));}
+.row.active{
+    background:linear-gradient(90deg, rgba(255,209,102,0.04), rgba(255,255,255,0.01));
+}
 
 
 .holes{
@@ -88,6 +90,9 @@ border-radius:50%;
 box-shadow: inset 0 -3px 6px rgba(0,0,0,0.45);
 border:3px solid rgba(0,0,0,0.22);
 }
+.peg.surrender {
+    opacity:1;
+}
 /* Feedback pegs */
 .feedback{
 width:76px;
@@ -99,17 +104,37 @@ align-items:center;
 justify-items:center;
 flex: 0 0 76px;
 }
-.fpeg{width:14px;height:14px;border-radius:50%;background:#11202b;border:1px solid rgba(255,255,255,0.03)}
-.fpeg.small{width:10px;height:10px}
+.fpeg{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#11202b;border:1px solid rgba(255,255,255,0.03)
+}
+.fpeg.small{
+    width:10px;
+    height:10px
+}
 
 
 /* Right panel */
 .side{
 background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:14px;align-items:stretch;
+border-radius:10px;
+padding:16px;
+display:flex;
+flex-direction:column;
+gap:14px;
+align-items:stretch;
 }
 .secret{
-height:74px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));border-radius:8px;padding:10px;display:flex;gap:10px;align-items:center;justify-content:center;
+height:74px;
+background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+border-radius:8px;
+padding:10px;
+display:flex;
+gap:10px;
+align-items:center;
+justify-content:center;
 }
 
 
@@ -144,12 +169,25 @@ box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 
 
 /* color palette */
-.palette{display:flex;gap:8px;flex-wrap:wrap}
-.color-swatch{width:40px;height:40px;border-radius:50%;cursor:pointer;border:3px solid rgba(0,0,0,0.2);box-shadow: 0 4px 10px rgba(2,6,23,0.6);}
+.palette{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap}
+.color-swatch{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    cursor:pointer;
+    border:3px solid rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(2,6,23,0.6);
+}
 
 
 /* footer hints */
-.hint{font-size:13px;color:rgba(255,255,255,0.22);}
+.hint{
+    font-size:13px;
+    color:rgba(255,255,255,0.22);
+}
 
 
 @media (max-width:880px){
