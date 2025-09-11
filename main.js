@@ -6,10 +6,12 @@ const palette = document.getElementById("palette");
 const secretSection = document.getElementById("secret");
 const secretRow = secretSection.getElementsByClassName("peg");
 
-let activeRow = 0;
+let activeRow = null;
 let selectedColor = null;
 const state = Array.from({length:ROWS},_=>Array(SLOTS).fill(null));
 let spielLaeuft = false;
+let gewonnen = false;
+let verloren = false;
 let secretCode = [];
 
 createField();
@@ -29,7 +31,7 @@ function createRow(i){
             if(i!==activeRow) return; 
             if(selectedColor===null) return;
             state[i][s]=selectedColor;
-            hole.innerHTML = `<div class="peg" style="background:${selectedColor}"></div>`;
+            hole.innerHTML = `<div class="peg" style="background:${selectedColor}"title="${selectedColor}"></div>`;
         });
         holes.appendChild(hole);
     }
@@ -68,12 +70,69 @@ colors.forEach(c=>{
 
 // submit & undo handlers (layout-only behaviour)
 document.getElementById('submit').addEventListener('click', ()=>{
-    // advance to next row visually
-    if(activeRow < ROWS-1){
-        document.querySelectorAll('.row')[activeRow].classList.remove('active');
-        activeRow++;
-        document.querySelectorAll('.row')[activeRow].classList.add('active');
+    // überprüfe ob gewonnen, wenn nicht gehe zur nächsten Zeile
+    let jetzigeZeile = document.querySelectorAll('.row')[activeRow];
+    let holes = jetzigeZeile.getElementsByClassName("holes")[0];
+    let hole = holes.getElementsByClassName("hole");
+    
+    let farbenDerReihe = Array.from(hole).map(h => {
+        const peg = h.querySelector('.peg');
+        return peg ? peg.title : null; 
+    }); 
+    console.log(farbenDerReihe);
+    
+    
+     // --- Gewinncheck mit Algorithmus für schwarze/weiße Pins ---
+    let redPins = 0;
+    let whitePins = 0;
+    let secretRest = [];
+    let guessRest = [];
+
+    for (let i = 0; i < SLOTS; i++) {
+        const secretFarbe = colors[secretCode[i]];
+        if (farbenDerReihe[i] === secretFarbe) {
+            redPins++;
+        } else {
+            secretRest.push(secretFarbe);
+            guessRest.push(farbenDerReihe[i]);
+        }
     }
+
+    // Weiße Pins zählen
+    guessRest.forEach(g => {
+        let idx = secretRest.indexOf(g);
+        if (idx > -1) {
+            whitePins++;
+            secretRest.splice(idx, 1);
+        }
+    });
+
+    // Feedback-Pegs setzen
+    let feedbackPegs = jetzigeZeile.querySelectorAll('.feedback .fpeg');
+    let pins = Array(redPins).fill("red").concat(Array(whitePins).fill("white"));
+
+    // mischen wie beim echten Mastermind
+    pins.sort(() => Math.random() - 0.5);
+
+    pins.forEach((color, i) => {
+        feedbackPegs[i].style.background = (color === "red" ? "#ef476f" : "#fff");
+    });
+
+    // --- Gewinn oder nächste Zeile ---
+    if (redPins === SLOTS) {
+        alert("Gewonnen! 🎉");
+        startAufgeben();
+    } else {
+        if (activeRow < ROWS - 1) { 
+            jetzigeZeile.classList.remove('active');
+            activeRow++;
+            document.querySelectorAll('.row')[activeRow].classList.add('active');
+        } else {
+            verloren = true;
+            alert("Verloren!");
+            startAufgeben();
+        }
+    }              
 });
 
 document.getElementById('undo').addEventListener('click', ()=>{
@@ -99,8 +158,7 @@ window.addEventListener('keydown', (e)=>{
 
 
 function startAufgeben(){
-const startButton = document.getElementById("startAufgebeButton");
-console.log("Start Knopf gedrückt");
+  const startButton = document.getElementById("startAufgebeButton");
   // Wenn Button nicht aktiv ist -> aktivieren/spiel starten
   if (!startButton.classList.contains("stop")) {
     clearField();
@@ -147,7 +205,7 @@ function generateCode(){
         //console.log(arr);
     }
     //console.log(arr);
-    console.log(secretCode);
+    //console.log(secretCode);            //Wenn man cheaten will dann einkommentieren
 }
 
 function codeAufdecken(){
@@ -168,6 +226,4 @@ function clearField(){
     }
     // Palette neu aufbauen, erste Farbe automatisch auswählen
     selectedColor = colors[0];
-
 }
-  

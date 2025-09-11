@@ -188,6 +188,21 @@ box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     font-size:13px;
     color:rgba(255,255,255,0.22);
 }
+.instructions {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.instructions .hint {
+  margin-bottom: 6px;
+  color: rgba(255,255,255,0.65);
+  word-wrap: break-word;     /* verhindert Überlaufen */
+  overflow-wrap: break-word; /* modernere Variante */
+}
 
 
 @media (max-width:880px){
@@ -223,6 +238,13 @@ box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   .fpeg {
     width: 12px;
     height: 12px;
+  }
+   .instructions {
+    font-size: 13px;
+    padding: 10px;
+     grid-column: 1 / -1;   /* nimmt ganze Breite ein */
+    order: 3;              /* kommt unter Board & Sidebar */
+    margin-top: 16px;
   }
 
 }
