@@ -1,4 +1,5 @@
-const colors = ["#ef476f","#ffd166","#06d6a0","#118ab2","#8338ec","#ff9f1c"];
+//const colors = ["#ef476f","#ffd166","#06d6a0","#118ab2","#8338ec","#ff9f1c"];
+const colors = ["red","orange","blue","violet","yellow","white"];
 const ROWS = 10;
 const SLOTS = 4;
 const board = document.getElementById("board");

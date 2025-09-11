@@ -108,11 +108,13 @@ flex: 0 0 76px;
     width:14px;
     height:14px;
     border-radius:50%;
-    background:#11202b;border:1px solid rgba(255,255,255,0.03)
+    background:#11202b;
+    border:1px solid rgba(255,255,255,0.03)
 }
 .fpeg.small{
     width:10px;
-    height:10px
+    height:10px;
+    background:#11202b;
 }
 
 
