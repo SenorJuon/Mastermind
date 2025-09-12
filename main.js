@@ -1,5 +1,5 @@
 //const colors = ["#ef476f","#ffd166","#06d6a0","#118ab2","#8338ec","#ff9f1c"];
-const colors = ["red","orange","blue","violet","yellow","white"];
+const colors = ["red","green","blue","violet","yellow","white"];
 const ROWS = 10;
 const SLOTS = 4;
 const board = document.getElementById("board");
@@ -69,7 +69,7 @@ colors.forEach(c=>{
     palette.appendChild(sw);
 });
 
-// submit & undo handlers (layout-only behaviour)
+// submit & undo handlers
 document.getElementById('submit').addEventListener('click', ()=>{
     // überprüfe ob gewonnen, wenn nicht gehe zur nächsten Zeile
     let jetzigeZeile = document.querySelectorAll('.row')[activeRow];
@@ -83,7 +83,7 @@ document.getElementById('submit').addEventListener('click', ()=>{
     console.log(farbenDerReihe);
     
     
-     // --- Gewinncheck mit Algorithmus für schwarze/weiße Pins ---
+     // Gewinncheck mit Algorithmus für schwarze/weiße Pins 
     let redPins = 0;
     let whitePins = 0;
     let secretRest = [];
